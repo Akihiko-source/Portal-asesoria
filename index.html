@@ -330,7 +330,6 @@ html{scroll-behavior:smooth;scroll-padding-top:5rem}
         <li><a href="#inicio">Inicio</a></li>
         <li><a href="#formulario">Reservar</a></li>
         <li><a href="#mis-reservas">Mis reservas</a></li>
-        <li><a href="#validacion">Validación</a></li>
         <li><button type="button" class="salir" id="salir"><svg class="ico" aria-hidden="true"><use href="#i-out"/></svg>Cerrar sesión</button></li>
       </ul>
     </nav>
@@ -430,40 +429,6 @@ html{scroll-behavior:smooth;scroll-padding-top:5rem}
     <h2 id="t-reservas">Mis reservas</h2>
     <p id="vacio">Aún no tienes reservas. Completa el formulario para crear la primera.</p>
     <ul id="lista-reservas" class="horarios" style="display:none"></ul>
-  </section>
-
-  <section aria-labelledby="t-val" id="validacion">
-    <h2 id="t-val">Validación en navegadores</h2>
-    <p>Escenario: correo <code>ana</code> debe bloquear el envío e indicar qué corregir; luego un correo válido debe confirmar la reserva. Completa las celdas con el resultado real de tu prueba (Pasa / Falla) y el entorno.</p>
-    <div class="tabla-wrap" tabindex="0" role="region" aria-labelledby="cap-matriz">
-      <table>
-        <caption id="cap-matriz">Matriz de resultados por navegador y dispositivo</caption>
-        <thead>
-          <tr><th scope="col">Criterio</th><th scope="col">Chrome (escritorio)</th><th scope="col">Firefox (escritorio)</th><th scope="col">Móvil real</th></tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Versión y sistema operativo</th><td class="pend">Por registrar</td><td class="pend">Por registrar</td><td class="pend">Por registrar</td></tr>
-          <tr><th scope="row">Visual y responsiva (3 anchos, sin desbordes)</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
-          <tr><th scope="row">Funcional: correo inválido bloquea y explica</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
-          <tr><th scope="row">Funcional: correo válido confirma la reserva</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
-          <tr><th scope="row">Accesibilidad: solo teclado (Tab, Shift+Tab, Enter)</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">No aplica</td></tr>
-          <tr><th scope="row">Accesibilidad: foco visible, contraste, anuncios</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
-          <tr><th scope="row">Estructura: marcado y consola sin errores</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <details>
-      <summary>Hallazgo documentado (plantilla del paso 5)</summary>
-      <ol>
-        <li><strong>Falla provocada:</strong> agregar <code>min-width: 500px</code> a <code>.tarjeta</code> y reducir la ventana a 320 px.</li>
-        <li><strong>Evidencia:</strong> captura con desplazamiento horizontal. <span class="pend">Adjunta tu captura.</span></li>
-        <li><strong>Impacto:</strong> el usuario móvil debe desplazarse en dos direcciones y pierde el botón de reserva (WCAG 1.4.10).</li>
-        <li><strong>Corrección:</strong> eliminar la regla; la tarjeta conserva <code>min-inline-size: 0</code> y <code>overflow-wrap: anywhere</code>.</li>
-        <li><strong>Reprueba:</strong> repetir el caso y las tareas relacionadas. <span class="pend">Anota el resultado.</span></li>
-      </ol>
-      <p>Nota: la puntuación automática por sí sola es insuficiente para declarar conformidad.</p>
-    </details>
   </section>
 </main>
 
