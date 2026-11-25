@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Ingresa al portal de asesorías académicas de la UTP.">
+<meta name="theme-color" content="#3d0a25">
+<title>Portal de asesorías académicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vino-900:#3d0a25; --vino-700:#6b1240; --vino-600:#86194f;
+  --mor-900:#2a1245; --mor-700:#53287f; --mor-500:#7b4bb0;
+  --lav-100:#f6f0fb; --lav-200:#e8dcf4; --lav-300:#cdb6e6;
+  --texto:#26102f; --suave:#5a4466; --error:#a3123a; --foco:#174ea6; --papel:#fff; --radio:14px; --ok:#1f6b45;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{font-size:100%}
+html[data-texto="grande"]{font-size:118%}
+body{margin:0;min-block-size:100vh;font-family:var(--sans);font-size:1.0625rem;line-height:1.6;color:var(--texto);background:var(--lav-100);-webkit-font-smoothing:antialiased}
+h1,h2{font-family:var(--serif);font-weight:700;line-height:1.15;margin:0 0 .6rem;letter-spacing:-.01em;color:var(--mor-900)}
+h1{font-size:clamp(2rem,4.5vw,3rem)}
+h2{font-size:clamp(1.6rem,3vw,2rem)}
+p{margin:0 0 1rem;max-inline-size:62ch}
+:focus-visible{outline:3px solid var(--foco);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.salto{position:absolute;inset-inline-start:1rem;inset-block-start:-4rem;z-index:30;background:#fff;color:var(--vino-700);padding:.75rem 1rem;border:2px solid var(--vino-700);border-radius:8px;font-weight:700}
+.salto:focus{inset-block-start:1rem}
+.ico{inline-size:1.25rem;block-size:1.25rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.pagina{display:grid;min-block-size:100vh}
+@media (min-width:56rem){.pagina{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}
+.lado{padding:2rem 1.5rem 2.5rem;color:#fff;background:linear-gradient(150deg,var(--mor-900) 0%,var(--mor-700) 55%,var(--vino-700) 100%);display:flex;flex-direction:column;justify-content:space-between;gap:2rem;border-block-end:5px solid var(--vino-600)}
+@media (min-width:56rem){.lado{padding:3rem;border-block-end:0;border-inline-end:5px solid var(--vino-600)}}
+.logo{font-family:var(--serif);font-weight:700;font-size:1.25rem;display:flex;align-items:center;gap:.75rem}
+.logo-icono{inline-size:2.6rem;block-size:2.6rem;border-radius:13px;background:#fff;color:var(--vino-700);display:grid;place-items:center}
+.logo-icono .ico{inline-size:1.5rem;block-size:1.5rem}
+.lado h1{color:#fff;max-inline-size:14ch}
+.lado p{font-size:1.15rem;color:var(--lav-200)}
+.valores{list-style:none;margin:0;padding:0;display:grid;gap:.8rem}
+.valores li{display:flex;gap:.8rem;align-items:center;color:var(--lav-200)}
+.valores .ico{inline-size:2.4rem;block-size:2.4rem;padding:.55rem;border-radius:12px;background:rgba(255,255,255,.12);color:#fff}
+
+.acceso{position:relative;display:grid;align-content:center;justify-items:center;padding:4.5rem 1.25rem 2.5rem}
+@media (min-width:56rem){.acceso{padding:3rem 2rem}}
+.caja{inline-size:100%;max-inline-size:28rem;background:#fff;border:2px solid var(--mor-700);border-radius:18px;padding:1.75rem;box-shadow:0 7px 0 var(--lav-300)}
+.sub{color:var(--suave)}
+
+/* Acceso demo: discreto, en la esquina */
+.demo{position:absolute;inset-block-start:.75rem;inset-inline-end:.75rem;z-index:5;display:flex;flex-direction:column;align-items:flex-end;gap:.4rem}
+.demo-btn{display:inline-flex;align-items:center;gap:.35rem;min-block-size:44px;padding:0 .6rem;font:inherit;font-size:.8rem;color:var(--suave);background:transparent;border:0;border-radius:8px;cursor:pointer;opacity:.85}
+.demo-btn:hover{opacity:1;background:var(--lav-200)}
+.demo-btn .ico{inline-size:.95rem;block-size:.95rem}
+.demo-panel{inline-size:15rem;padding:.7rem .85rem;background:#fff;border:1px solid var(--lav-300);border-radius:12px;font-size:.85rem;color:var(--suave);box-shadow:0 6px 18px rgba(42,18,69,.12)}
+.demo-panel[hidden]{display:none}
+.demo-panel p{margin:0 0 .4rem;font-size:.8rem}
+.demo-panel dl{margin:0 0 .5rem;display:grid;grid-template-columns:auto 1fr;gap:.1rem .5rem}
+.demo-panel dd{margin:0;color:var(--texto);font-weight:500;overflow-wrap:anywhere;user-select:all}
+.demo-panel button{font:inherit;font-size:.85rem;font-weight:700;color:var(--vino-700);background:none;border:0;padding:.5rem 0;min-block-size:44px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+label{display:block;font-weight:700;margin-block-end:.3rem}
+.campo{margin-block-end:1.1rem}
+.entrada{position:relative}
+.entrada>.ico{position:absolute;inset-inline-start:.9rem;inset-block-start:50%;transform:translateY(-50%);color:var(--mor-700);pointer-events:none}
+input[type=email],input[type=password],input[type=text]{inline-size:100%;min-block-size:50px;padding:.55rem .8rem .55rem 2.8rem;font:inherit;color:var(--texto);background:#fff;border:2px solid var(--mor-500);border-radius:12px}
+.entrada.tiene-ojo input{padding-inline-end:3.2rem}
+input:hover{border-color:var(--vino-600)}
+.ojo{position:absolute;inset-inline-end:.25rem;inset-block-start:50%;transform:translateY(-50%);inline-size:44px;block-size:44px;display:grid;place-items:center;color:var(--mor-700);background:none;border:0;border-radius:10px;cursor:pointer}
+.ojo:hover{background:var(--lav-200);color:var(--vino-700)}
+.ojo .ico{inline-size:1.35rem;block-size:1.35rem}
+.ayuda{font-size:.9rem;color:var(--suave);margin:.3rem 0 0}
+.error{display:none;align-items:flex-start;gap:.4rem;margin:.4rem 0 0;color:var(--error);font-weight:700;font-size:.95rem}
+.error .ico{inline-size:1.1rem;block-size:1.1rem;margin-block-start:.15rem}
+[aria-invalid="true"]{border-color:var(--error)!important;background:#fff5f8}
+.entrada:has([aria-invalid="true"])~.error{display:flex}
+.aviso{display:none;gap:.6rem;align-items:flex-start;margin-block-end:1rem;padding:.8rem 1rem;border:2px solid var(--error);border-radius:12px;background:#fff0f4;color:#6d0a26;font-weight:600}
+.aviso.visible{display:flex}
+.aviso.info{border-color:var(--mor-700);background:var(--lav-200);color:var(--mor-900)}
+.aviso .ico{margin-block-start:.2rem}
+.mayus{font-size:.9rem;color:var(--vino-700);font-weight:700;margin:.3rem 0 0;min-block-size:0}
+.fila{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;justify-content:space-between;margin-block-end:1.25rem}
+.check{display:flex;align-items:center;gap:.6rem;min-block-size:44px;font-weight:500;margin:0;cursor:pointer}
+.check input{inline-size:1.3rem;block-size:1.3rem;accent-color:var(--vino-700);margin:0}
+.enlace-btn{color:var(--vino-700);min-block-size:44px;display:inline-flex;align-items:center;background:none;border:0;padding:0;font:inherit;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-block-size:50px;padding:.6rem 1.4rem;font:inherit;font-weight:700;color:#fff;background:var(--vino-700);border:2px solid var(--vino-900);border-radius:999px;cursor:pointer}
+.boton:hover{background:var(--vino-900)}
+.boton[disabled]{opacity:.75;cursor:progress}
+.boton.pleno{inline-size:100%}
+.boton.sec{background:#fff;color:var(--mor-900);border-color:var(--mor-700)}
+.boton.sec:hover{background:var(--lav-200)}
+.girar{inline-size:1.1rem;block-size:1.1rem;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:g .8s linear infinite}
+@keyframes g{to{transform:rotate(360deg)}}
+.legal{margin:1.25rem 0 0;font-size:.9rem;color:var(--suave);text-align:center}
+
+.onb{display:none}
+.onb.visible{display:block}
+.progreso{display:flex;gap:.4rem;margin:0 0 1.25rem;padding:0;list-style:none}
+.progreso li{flex:1;block-size:.5rem;border-radius:99px;background:var(--lav-200)}
+.progreso li.hecho{background:var(--vino-600)}
+.progreso li.actual{background:var(--mor-700)}
+.paso-n{font-weight:700;color:var(--vino-700);margin:0 0 .3rem}
+.pasos{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:.9rem}
+.pasos li{display:flex;gap:.9rem;align-items:flex-start}
+.pasos .ico{inline-size:2.5rem;block-size:2.5rem;padding:.6rem;border-radius:12px;background:var(--lav-200);color:var(--vino-700)}
+.opciones{border:0;padding:0;margin:0 0 1.25rem;display:grid;gap:.6rem}
+.opciones legend{font-weight:700;margin-block-end:.5rem;padding:0}
+.opcion{display:flex;gap:.7rem;align-items:center;min-block-size:50px;padding:.5rem .9rem;border:2px solid var(--mor-500);border-radius:12px;cursor:pointer;margin:0;font-weight:500}
+.opcion:has(input:checked){background:var(--lav-200);border-color:var(--vino-600);font-weight:700}
+.opcion input{inline-size:1.25rem;block-size:1.25rem;accent-color:var(--vino-700);margin:0}
+.nav-onb{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between;align-items:center}
+.nav-onb>div{display:flex;gap:.75rem;flex-wrap:wrap}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
+#app h1,#app h2,#app h3{font-family:var(--serif);line-height:1.2;margin:0 0 .5rem;color:var(--mor-900)}
+#app p{margin:0 0 1rem;max-inline-size:68ch}
+#app .cabecera{position:sticky;top:0;z-index:10;background:linear-gradient(90deg,var(--vino-900),var(--mor-900));color:#fff;border-block-end:4px solid var(--vino-600)}
+#app .cabecera-in{max-inline-size:64rem;margin-inline:auto;padding:.5rem 1rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem}
+#app .marca{font-family:var(--serif);font-weight:700;font-size:1.2rem;color:#fff;text-decoration:none;min-block-size:44px;display:inline-flex;align-items:center}
+#app .nav ul{display:flex;flex-wrap:wrap;gap:.25rem;margin:0;padding:0;list-style:none}
+#app .nav a{display:inline-flex;align-items:center;min-block-size:44px;padding:0 .9rem;color:#fff;text-decoration:none;border-radius:999px;border:2px solid transparent}
+#app .nav a:hover{background:rgba(255,255,255,.16);border-color:var(--lav-300)}
+#app .cabecera :focus-visible{outline-color:#fff}
+#app .contenedor{max-inline-size:64rem;margin-inline:auto;padding:1rem}
+#app .hero{margin-block:1.5rem;padding:2rem 1.5rem;border-radius:var(--radio);color:#fff;background:linear-gradient(135deg,var(--mor-700),var(--vino-700));border:3px solid var(--mor-900);box-shadow:0 6px 0 var(--vino-900)}
+#app .hero h1{color:#fff;font-size:clamp(1.75rem,5vw,2.75rem)}
+#app .hero p{margin:0;font-size:1.15rem}
+#app section{margin-block:2rem}
+#app section>h2{font-size:1.6rem;padding-block-end:.4rem;border-block-end:3px solid var(--vino-600);display:inline-block}
+#app .horarios{display:grid;gap:1rem;padding:0;margin:1rem 0 0;list-style:none}
+#app .tarjeta{min-inline-size:0;padding:1.25rem;background:var(--papel);border:2px solid var(--mor-700);border-inline-start:8px solid var(--vino-600);border-radius:var(--radio);overflow-wrap:anywhere}
+#app .tarjeta h3{font-size:1.25rem}
+#app .tarjeta p{margin-block-end:.5rem;color:var(--suave)}
+#app .tarjeta p strong{color:var(--texto)}
+#app .tarjeta a{display:inline-flex;align-items:center;min-block-size:44px;color:var(--vino-700);font-weight:700;text-underline-offset:4px}
+#app .tarjeta a:hover{color:var(--mor-900)}
+@media (min-width:42rem){#app .horarios{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:60rem){#app .horarios{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+#app .panel{background:var(--papel);border:2px solid var(--mor-700);border-radius:var(--radio);padding:1.25rem;box-shadow:0 5px 0 var(--lav-300)}
+#app .campos{display:grid;gap:1.1rem}
+@media (min-width:42rem){#app .campos{grid-template-columns:repeat(2,minmax(0,1fr))}
+#app .campos .ancho{grid-column:1/-1}
+}
+#app label{display:block;font-weight:700;margin-block-end:.3rem;color:var(--mor-900)}
+#app .req{color:var(--error)}
+#app input,#app select{inline-size:100%;min-block-size:48px;padding:.5rem .75rem;font:inherit;color:var(--texto);background:#fff;border:2px solid var(--mor-500);border-radius:10px}
+#app input:hover,#app select:hover{border-color:var(--vino-600)}
+#app .ayuda{font-size:.9rem;color:var(--suave);margin:.25rem 0 0}
+#app .error{display:none;margin:.35rem 0 0;color:var(--error);font-weight:600;font-size:.95rem}
+#app .error::before{content:"⚠ ";}
+#app [aria-invalid="true"]{border-color:var(--error);border-width:3px;background:#fff5f8}
+#app [aria-invalid="true"]~.error{display:block}
+#app .resumen{display:none;margin-block-end:1rem;padding:.9rem 1rem;border:2px solid var(--error);border-inline-start-width:8px;border-radius:10px;background:#fff0f4;color:#6d0a26;font-weight:600}
+#app .resumen.visible{display:block}
+#app .boton{display:inline-flex;align-items:center;justify-content:center;min-block-size:48px;min-inline-size:8rem;padding:.6rem 1.6rem;font:inherit;font-weight:700;color:#fff;background:var(--vino-700);border:2px solid var(--vino-900);border-radius:999px;cursor:pointer}
+#app .boton:hover{background:var(--vino-900)}
+#app .acciones{display:flex;flex-wrap:wrap;gap:1.5rem;margin-block-start:1.25rem}
+#app .boton.sec{background:#fff;color:var(--mor-900);border-color:var(--mor-700)}
+#app .boton.sec:hover{background:var(--lav-200)}
+#app .confirmacion{display:none;margin-block-start:1.25rem;padding:1.25rem;border:3px solid var(--ok);border-radius:var(--radio);background:#f1faf5}
+#app .confirmacion.visible{display:block}
+#app .confirmacion h3{color:var(--ok)}
+#app .confirmacion dl{display:grid;grid-template-columns:max-content 1fr;gap:.25rem 1rem;margin:0}
+#app .confirmacion dt{font-weight:700}
+#app .confirmacion dd{margin:0;overflow-wrap:anywhere}
+#app .tabla-wrap{overflow-x:auto;border:2px solid var(--mor-700);border-radius:var(--radio);background:#fff}
+#app table{border-collapse:collapse;inline-size:100%;min-inline-size:44rem;font-size:.95rem}
+#app caption{text-align:start;padding:.75rem 1rem;font-weight:700;color:var(--mor-900)}
+#app th,#app td{padding:.6rem .8rem;text-align:start;border-block-start:1px solid var(--lav-300);vertical-align:top}
+#app thead th{background:var(--mor-900);color:#fff;border:0}
+#app tbody th{background:var(--lav-200);color:var(--mor-900)}
+#app .pend{color:var(--suave);font-style:italic}
+#app details{background:#fff;border:2px solid var(--vino-600);border-radius:var(--radio);padding:.25rem 1rem;margin-block-start:1rem}
+#app summary{min-block-size:44px;display:flex;align-items:center;font-weight:700;color:var(--vino-700);cursor:pointer}
+#app details ul,#app details ol{padding-inline-start:1.25rem}
+#app code{background:var(--lav-200);padding:.1em .4em;border-radius:5px;font-size:.92em}
+#app .pie{margin-block-start:3rem;padding:1.5rem 1rem;text-align:center;color:#fff;background:var(--mor-900);border-block-start:4px solid var(--vino-600)}
+#app .pie p{margin-inline:auto}
+@media (max-width:30rem){#app .confirmacion dl{grid-template-columns:1fr}
+#app .confirmacion dd{margin-block-end:.5rem}
+}
+
+#app .salir{display:inline-flex;align-items:center;gap:.4rem;min-block-size:44px;padding:0 .9rem;color:#fff;background:transparent;font:inherit;border:2px solid var(--lav-300);border-radius:999px;cursor:pointer}
+#app .salir:hover{background:rgba(255,255,255,.16)}
+#app .salir .ico{inline-size:1.1rem;block-size:1.1rem}
+.pagina[hidden]{display:none}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 9 12 4 2 9l10 5 10-5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M6.6 6.6C3.7 8.4 2 12 2 12s3.5 7 10 7c1.5 0 2.9-.3 4.1-.9M10 5.1c.6-.1 1.3-.1 2-.1 6.5 0 10 7 10 7s-.9 1.7-2.5 3.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-access" viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="1.8"/><path d="M5 8l7 1 7-1M12 9v5m0 0-3 6m3-6 3 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.01"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></symbol>
+    <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  </defs>
+</svg>
+
+<a class="salto" id="salto" href="#principal">Saltar al contenido principal</a>
+
+<div class="pagina">
+  <header class="lado">
+    <div class="logo"><span class="logo-icono"><svg class="ico" aria-hidden="true"><use href="#i-cap"/></svg></span>Portal de asesorías</div>
+    <div>
+      <h1>Aprende con apoyo, a tu ritmo.</h1>
+      <p>Reserva asesorías de Matemáticas, Programación y Redacción en pocos pasos, desde cualquier dispositivo.</p>
+    </div>
+    <ul class="valores">
+      <li><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>Funciona en celular, tablet y laptop</li>
+      <li><svg class="ico" aria-hidden="true"><use href="#i-access"/></svg>Compatible con teclado y lector de pantalla</li>
+      <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Confirmación inmediata de tu reserva</li>
+    </ul>
+  </header>
+
+  <div class="acceso">
+    <div class="demo">
+      <button type="button" class="demo-btn" id="demo-btn" aria-expanded="false" aria-controls="demo-panel">
+        <svg class="ico" aria-hidden="true"><use href="#i-key"/></svg>Acceso demo
+      </button>
+      <div class="demo-panel" id="demo-panel" hidden>
+        <p>Cuenta de prueba</p>
+        <dl><dt>Correo</dt><dd>zumi@utp.edu.pe</dd><dt>Clave</dt><dd>Pump2026</dd></dl>
+        <button type="button" id="usar-demo">Rellenar campos</button>
+      </div>
+    </div>
+
+    <main id="principal" class="caja">
+      <section id="vista-login" aria-labelledby="t-login">
+        <h2 id="t-login">Inicia sesión</h2>
+        <p class="sub">Usa tu correo institucional para reservar y consultar tus asesorías.</p>
+
+        <div id="aviso" class="aviso" role="alert" tabindex="-1"><svg class="ico" aria-hidden="true"><use id="aviso-ico" href="#i-alert"/></svg><span id="aviso-txt"></span></div>
+
+        <form id="login" novalidate>
+          <div class="campo">
+            <label for="correo">Correo institucional</label>
+            <div class="entrada">
+              <svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>
+              <input id="correo" name="correo" type="email" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="tu@utp.edu.pe" required aria-describedby="ayuda-correo error-correo">
+            </div>
+            <p id="error-correo" class="error"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>Ingresa un correo válido, por ejemplo zumi@utp.edu.pe.</p>
+            <p id="ayuda-correo" class="ayuda">Ejemplo: zumi@utp.edu.pe</p>
+          </div>
+
+          <div class="campo">
+            <label for="clave">Contraseña</label>
+            <div class="entrada tiene-ojo">
+              <svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg>
+              <input id="clave" name="clave" type="password" autocomplete="current-password" required aria-describedby="error-clave mayus">
+              <button type="button" class="ojo" id="ver" aria-label="Mostrar contraseña" aria-pressed="false" aria-controls="clave"><svg class="ico" aria-hidden="true"><use id="ojo-ico" href="#i-eye"/></svg></button>
+            </div>
+            <p id="error-clave" class="error"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>Escribe tu contraseña.</p>
+            <p id="mayus" class="mayus" aria-live="polite"></p>
+          </div>
+
+          <div class="fila">
+            <label class="check"><input type="checkbox" id="recordar"> Recordar mi correo</label>
+            <button type="button" class="enlace-btn" id="olvide">¿Olvidaste tu contraseña?</button>
+          </div>
+
+          <button type="submit" class="boton pleno" id="enviar"><span>Ingresar</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </form>
+        <p class="legal">Tus datos se usan solo para gestionar tus reservas.</p>
+      </section>
+
+      <section id="vista-onb" class="onb" aria-labelledby="onb-titulo">
+        <ol class="progreso" id="progreso" aria-label="Progreso de la bienvenida"><li></li><li></li><li></li></ol>
+        <p class="paso-n" id="paso-n"></p>
+
+        <div class="paso" data-paso="1">
+          <h2 id="onb-titulo" tabindex="-1">Te damos la bienvenida, <span id="nombre-usuario">Zumi</span></h2>
+          <p>En menos de un minuto verás cómo reservar y podrás ajustar el portal a tu comodidad.</p>
+          <p class="sub">Puedes omitir esta guía cuando quieras.</p>
+        </div>
+
+        <div class="paso hidden" data-paso="2">
+          <h2 tabindex="-1">Reservar toma tres pasos</h2>
+          <ol class="pasos" style="list-style:none">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span><strong>Elige una asesoría.</strong> Revisa días y horarios disponibles.</span></li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-edit"/></svg><span><strong>Completa el formulario.</strong> Si algo falla, te diremos qué corregir.</span></li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Recibe tu confirmación.</strong> Verás el detalle en “Mis reservas”.</span></li>
+          </ol>
+        </div>
+
+        <div class="paso hidden" data-paso="3">
+          <h2 tabindex="-1">Ajusta el portal a ti</h2>
+          <fieldset class="opciones">
+            <legend>Tamaño del texto</legend>
+            <label class="opcion"><input type="radio" name="texto" value="normal" checked> Normal</label>
+            <label class="opcion"><input type="radio" name="texto" value="grande"> Grande</label>
+          </fieldset>
+        </div>
+
+        <div class="nav-onb">
+          <button type="button" class="enlace-btn" id="omitir">Omitir guía</button>
+          <div>
+            <button type="button" class="boton sec hidden" id="atras">Atrás</button>
+            <button type="button" class="boton" id="siguiente">Siguiente</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div id="app" hidden>
+<header class="cabecera">
+  <div class="cabecera-in">
+    <a class="marca" href="#inicio">Portal de asesorías</a>
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#formulario">Reservar</a></li>
+        <li><a href="#mis-reservas">Mis reservas</a></li>
+        <li><a href="#validacion">Validación</a></li>
+        <li><button type="button" class="salir" id="salir"><svg class="ico" aria-hidden="true"><use href="#i-out"/></svg>Cerrar sesión</button></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="contenedor">
+  <div class="hero" id="inicio">
+    <p id="saludo" style="margin:0 0 .4rem;color:var(--lav-200);font-weight:700"></p>
+    <h1>Portal de asesorías académicas</h1>
+    <p>Reserva una asesoría con el área de tu interés.</p>
+  </div>
+
+  <section aria-labelledby="t-horarios">
+    <h2 id="t-horarios">Asesorías disponibles</h2>
+    <ul class="horarios">
+      <li class="tarjeta">
+        <h3>Matemáticas</h3>
+        <p><strong>Días:</strong> Lun y Mié</p>
+        <p><strong>Horario:</strong> 10:00 - 11:00</p>
+        <a href="#formulario" data-asesoria="Matemáticas">Ir al formulario de reserva<span class="sr-only"> de Matemáticas</span></a>
+      </li>
+      <li class="tarjeta">
+        <h3>Programación</h3>
+        <p><strong>Días:</strong> Mar y Jue</p>
+        <p><strong>Horario:</strong> 14:00 - 15:00</p>
+        <a href="#formulario" data-asesoria="Programación">Ir al formulario de reserva<span class="sr-only"> de Programación</span></a>
+      </li>
+      <li class="tarjeta">
+        <h3>Redacción académica</h3>
+        <p><strong>Días:</strong> Vie</p>
+        <p><strong>Horario:</strong> 12:00 - 13:00</p>
+        <a href="#formulario" data-asesoria="Redacción académica">Ir al formulario de reserva<span class="sr-only"> de Redacción académica</span></a>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-form" id="formulario">
+    <h2 id="t-form">Reservar asesoría</h2>
+    <div class="panel">
+      <p>Los campos con <span class="req" aria-hidden="true">*</span><span class="sr-only">asterisco</span> son obligatorios.</p>
+      <div id="resumen" class="resumen" role="alert" tabindex="-1"></div>
+      <form id="reserva" novalidate>
+        <div class="campos">
+          <div>
+            <label for="asesoria">Asesoría <span class="req" aria-hidden="true">*</span></label>
+            <select id="asesoria" name="asesoria" required aria-describedby="error-asesoria">
+              <option value="">Selecciona una asesoría</option>
+              <option>Matemáticas</option>
+              <option>Programación</option>
+              <option>Redacción académica</option>
+            </select>
+            <p id="error-asesoria" class="error">Selecciona una asesoría de la lista.</p>
+          </div>
+          <div>
+            <label for="nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required aria-describedby="error-nombre">
+            <p id="error-nombre" class="error">Escribe tu nombre completo.</p>
+          </div>
+          <div>
+            <label for="rv-correo">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+            <input id="rv-correo" name="correo" type="email" autocomplete="email" placeholder="tu@correo.com" required aria-describedby="ayuda-rv-correo error-rv-correo">
+            <p id="ayuda-rv-correo" class="ayuda">Ejemplo: zumi@utp.edu.pe</p>
+            <p id="error-rv-correo" class="error">Ingresa un correo válido, por ejemplo zumi@utp.edu.pe.</p>
+          </div>
+          <div>
+            <label for="fecha">Fecha <span class="req" aria-hidden="true">*</span></label>
+            <input id="fecha" name="fecha" type="date" required aria-describedby="ayuda-fecha error-fecha">
+            <p id="ayuda-fecha" class="ayuda">Formato: dd/mm/aaaa. No puede ser una fecha pasada.</p>
+            <p id="error-fecha" class="error">Elige una fecha de hoy en adelante.</p>
+          </div>
+          <div class="ancho">
+            <label for="horario">Horario <span class="req" aria-hidden="true">*</span></label>
+            <select id="horario" name="horario" required aria-describedby="error-horario">
+              <option value="">Selecciona un horario</option>
+              <option>10:00 - 11:00</option>
+              <option>12:00 - 13:00</option>
+              <option>14:00 - 15:00</option>
+            </select>
+            <p id="error-horario" class="error">Selecciona un horario.</p>
+          </div>
+        </div>
+        <div class="acciones">
+          <button type="submit" class="boton">Reservar</button>
+          <button type="reset" class="boton sec">Limpiar formulario</button>
+        </div>
+      </form>
+
+      <div id="confirmacion" class="confirmacion" role="status" aria-live="polite">
+        <h3 id="conf-titulo" tabindex="-1">Reserva confirmada</h3>
+        <dl id="conf-detalle"></dl>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-reservas" id="mis-reservas">
+    <h2 id="t-reservas">Mis reservas</h2>
+    <p id="vacio">Aún no tienes reservas. Completa el formulario para crear la primera.</p>
+    <ul id="lista-reservas" class="horarios" style="display:none"></ul>
+  </section>
+
+  <section aria-labelledby="t-val" id="validacion">
+    <h2 id="t-val">Validación en navegadores</h2>
+    <p>Escenario: correo <code>ana</code> debe bloquear el envío e indicar qué corregir; luego un correo válido debe confirmar la reserva. Completa las celdas con el resultado real de tu prueba (Pasa / Falla) y el entorno.</p>
+    <div class="tabla-wrap" tabindex="0" role="region" aria-labelledby="cap-matriz">
+      <table>
+        <caption id="cap-matriz">Matriz de resultados por navegador y dispositivo</caption>
+        <thead>
+          <tr><th scope="col">Criterio</th><th scope="col">Chrome (escritorio)</th><th scope="col">Firefox (escritorio)</th><th scope="col">Móvil real</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Versión y sistema operativo</th><td class="pend">Por registrar</td><td class="pend">Por registrar</td><td class="pend">Por registrar</td></tr>
+          <tr><th scope="row">Visual y responsiva (3 anchos, sin desbordes)</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
+          <tr><th scope="row">Funcional: correo inválido bloquea y explica</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
+          <tr><th scope="row">Funcional: correo válido confirma la reserva</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
+          <tr><th scope="row">Accesibilidad: solo teclado (Tab, Shift+Tab, Enter)</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">No aplica</td></tr>
+          <tr><th scope="row">Accesibilidad: foco visible, contraste, anuncios</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
+          <tr><th scope="row">Estructura: marcado y consola sin errores</th><td class="pend">Por probar</td><td class="pend">Por probar</td><td class="pend">Por probar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details>
+      <summary>Hallazgo documentado (plantilla del paso 5)</summary>
+      <ol>
+        <li><strong>Falla provocada:</strong> agregar <code>min-width: 500px</code> a <code>.tarjeta</code> y reducir la ventana a 320 px.</li>
+        <li><strong>Evidencia:</strong> captura con desplazamiento horizontal. <span class="pend">Adjunta tu captura.</span></li>
+        <li><strong>Impacto:</strong> el usuario móvil debe desplazarse en dos direcciones y pierde el botón de reserva (WCAG 1.4.10).</li>
+        <li><strong>Corrección:</strong> eliminar la regla; la tarjeta conserva <code>min-inline-size: 0</code> y <code>overflow-wrap: anywhere</code>.</li>
+        <li><strong>Reprueba:</strong> repetir el caso y las tareas relacionadas. <span class="pend">Anota el resultado.</span></li>
+      </ol>
+      <p>Nota: la puntuación automática por sí sola es insuficiente para declarar conformidad.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="pie">
+  <p>UTP — Universidad Tecnológica del Perú · Interacción Hombre Máquina · Sesión 16</p>
+</footer>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var DEMO = { correo: 'zumi@utp.edu.pe', clave: 'Pump2026' };
+  function guardar(k, v, t) { try { (t || localStorage).setItem(k, v); } catch (e) {} }
+  function leer(k, t) { try { return (t || localStorage).getItem(k); } catch (e) { return null; } }
+  function borrar(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
+  var form = $('login'), correo = $('correo'), clave = $('clave'), aviso = $('aviso');
+  var intentos = 0, bloqueado = false;
+
+  if (leer('texto') === 'grande') document.documentElement.dataset.texto = 'grande';
+  var guardado = leer('correo');
+  if (guardado) { correo.value = guardado; $('recordar').checked = true; }
+
+  // Acceso demo (panel discreto)
+  var dBtn = $('demo-btn'), dPanel = $('demo-panel');
+  function demo(abrir) { dPanel.hidden = !abrir; dBtn.setAttribute('aria-expanded', String(abrir)); }
+  dBtn.addEventListener('click', function () { demo(dPanel.hidden); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !dPanel.hidden) { demo(false); dBtn.focus(); } });
+  $('usar-demo').addEventListener('click', function () {
+    correo.value = DEMO.correo; clave.value = DEMO.clave;
+    correo.removeAttribute('aria-invalid'); clave.removeAttribute('aria-invalid');
+    aviso.classList.remove('visible'); demo(false); $('enviar').focus();
+  });
+
+  // Ojo: mostrar / ocultar
+  $('ver').addEventListener('click', function () {
+    var ver = clave.type === 'password';
+    clave.type = ver ? 'text' : 'password';
+    this.setAttribute('aria-pressed', String(ver));
+    this.setAttribute('aria-label', ver ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    $('ojo-ico').setAttribute('href', ver ? '#i-eye-off' : '#i-eye');
+  });
+
+  clave.addEventListener('keyup', function (e) {
+    var on = e.getModifierState && e.getModifierState('CapsLock');
+    $('mayus').textContent = on ? 'Bloq Mayús está activado.' : '';
+  });
+
+  function mostrarAviso(msg, info) {
+    $('aviso-txt').textContent = msg;
+    $('aviso-ico').setAttribute('href', info ? '#i-info' : '#i-alert');
+    aviso.classList.toggle('info', !!info);
+    aviso.classList.add('visible');
+  }
+  $('olvide').addEventListener('click', function () {
+    mostrarAviso('Para restablecer tu contraseña, escribe a soporte@utp.edu.pe indicando tu correo institucional.', true);
+  });
+  [correo, clave].forEach(function (c) { c.addEventListener('input', function () { c.removeAttribute('aria-invalid'); }); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (bloqueado) return;
+    aviso.classList.remove('visible');
+    var okC = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo.value.trim());
+    var okK = clave.value.length > 0;
+    correo.removeAttribute('aria-invalid'); clave.removeAttribute('aria-invalid');
+    if (!okC) correo.setAttribute('aria-invalid', 'true');
+    if (!okK) clave.setAttribute('aria-invalid', 'true');
+    if (!okC || !okK) {
+      mostrarAviso('No se pudo ingresar. Corrige: ' + [!okC && 'Correo institucional', !okK && 'Contraseña'].filter(Boolean).join(', ') + '.');
+      (!okC ? correo : clave).focus();
+      return;
+    }
+    cargando(true);
+    setTimeout(function () {
+      cargando(false);
+      var ok = correo.value.trim().toLowerCase() === DEMO.correo && clave.value === DEMO.clave;
+      if (!ok) {
+        intentos++;
+        if (intentos >= 5) {
+          bloqueado = true; $('enviar').disabled = true;
+          mostrarAviso('Superaste los 5 intentos. Espera 30 segundos para volver a intentarlo.');
+          setTimeout(function () { bloqueado = false; intentos = 0; $('enviar').disabled = false; mostrarAviso('Ya puedes intentarlo de nuevo.', true); }, 30000);
+        } else {
+          mostrarAviso('Correo o contraseña incorrectos. Revisa los datos e inténtalo de nuevo. Intentos restantes: ' + (5 - intentos) + '.');
+        }
+        clave.value = ''; clave.focus();
+        return;
+      }
+      if ($('recordar').checked) guardar('correo', correo.value.trim()); else borrar('correo');
+      guardar('sesion', correo.value.trim(), sessionStorage);
+      iniciarOnboarding();
+    }, 700);
+  });
+
+  function cargando(on) {
+    var b = $('enviar');
+    b.disabled = on; b.setAttribute('aria-busy', String(on));
+    b.innerHTML = on
+      ? '<span class="girar" aria-hidden="true"></span><span>Verificando…</span>'
+      : '<span>Ingresar</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg>';
+  }
+
+  // Onboarding
+  var paso = 1, TOTAL = 3;
+  function iniciarOnboarding() {
+    if (leer('onboarding') === 'listo') { irAlPortal(); return; }
+    var n = correo.value.split('@')[0];
+    $('nombre-usuario').textContent = n.charAt(0).toUpperCase() + n.slice(1);
+    $('vista-login').classList.add('hidden');
+    $('vista-onb').classList.add('visible');
+    mostrarPaso(1);
+  }
+  function mostrarPaso(n) {
+    paso = n;
+    document.querySelectorAll('.paso').forEach(function (p) { p.classList.toggle('hidden', Number(p.dataset.paso) !== n); });
+    document.querySelectorAll('#progreso li').forEach(function (li, i) { li.className = i + 1 < n ? 'hecho' : (i + 1 === n ? 'actual' : ''); });
+    $('paso-n').textContent = 'Paso ' + n + ' de ' + TOTAL;
+    $('atras').classList.toggle('hidden', n === 1);
+    $('siguiente').textContent = n === TOTAL ? 'Ir al portal' : 'Siguiente';
+    document.querySelector('.paso[data-paso="' + n + '"] h2').focus();
+  }
+  $('siguiente').addEventListener('click', function () { if (paso < TOTAL) mostrarPaso(paso + 1); else terminar(); });
+  $('atras').addEventListener('click', function () { if (paso > 1) mostrarPaso(paso - 1); });
+  $('omitir').addEventListener('click', terminar);
+  document.querySelectorAll('input[name=texto]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      if (!r.checked) return;
+      if (r.value === 'grande') document.documentElement.dataset.texto = 'grande'; else delete document.documentElement.dataset.texto;
+      guardar('texto', r.value);
+    });
+  });
+  function terminar() { guardar('onboarding', 'listo'); irAlPortal(); }
+  function irAlPortal() {
+    $('vista-onb').classList.remove('visible');
+    document.querySelector('.pagina').hidden = true;
+    $('app').hidden = false;
+    $('salto').setAttribute('href', '#contenido');
+    document.title = 'Reservar asesoría · Portal de asesorías académicas';
+    var n = (leer('sesion', sessionStorage) || correo.value || 'estudiante').split('@')[0];
+    $('saludo').textContent = 'Hola, ' + n.charAt(0).toUpperCase() + n.slice(1);
+    window.scrollTo(0, 0);
+    var h = document.querySelector('#app h1'); h.setAttribute('tabindex', '-1'); h.focus();
+  }
+  function cerrarSesion() {
+    try { sessionStorage.removeItem('sesion'); } catch (e) {}
+    clave.value = '';
+    $('app').hidden = true;
+    document.querySelector('.pagina').hidden = false;
+    $('vista-login').classList.remove('hidden');
+    $('vista-onb').classList.remove('visible');
+    $('salto').setAttribute('href', '#principal');
+    document.title = 'Portal de asesorías académicas';
+    mostrarAviso('Cerraste sesión correctamente.', true);
+    window.scrollTo(0, 0);
+    correo.focus();
+  }
+  $('salir').addEventListener('click', cerrarSesion);
+  if (leer('sesion', sessionStorage) && leer('onboarding') === 'listo') irAlPortal();
+})();
+</script>
+<script>
+(function () {
+  var form = document.getElementById('reserva');
+  var resumen = document.getElementById('resumen');
+  var conf = document.getElementById('confirmacion');
+  var confTitulo = document.getElementById('conf-titulo');
+  var confDetalle = document.getElementById('conf-detalle');
+  var lista = document.getElementById('lista-reservas');
+  var vacio = document.getElementById('vacio');
+  var fecha = form.elements.fecha;
+
+  function hoy() {
+    var d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 10);
+  }
+  fecha.min = hoy();
+
+  var reglas = {
+    asesoria: function (v) { return v !== ''; },
+    nombre: function (v) { return v.trim().length >= 3; },
+    correo: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
+    fecha: function (v) { return v !== '' && v >= hoy(); },
+    horario: function (v) { return v !== ''; }
+  };
+  var etiquetas = { asesoria: 'Asesoría', nombre: 'Nombre', correo: 'Correo electrónico', fecha: 'Fecha', horario: 'Horario' };
+
+  function marcar(campo, valido) {
+    if (valido) campo.removeAttribute('aria-invalid');
+    else campo.setAttribute('aria-invalid', 'true');
+  }
+
+  function validar() {
+    var errores = [];
+    Object.keys(reglas).forEach(function (n) {
+      var c = form.elements[n];
+      var ok = reglas[n](c.value);
+      marcar(c, ok);
+      if (!ok) errores.push(n);
+    });
+    return errores;
+  }
+
+  // Corrección en vivo: al arreglar un campo desaparece su error
+  Object.keys(reglas).forEach(function (n) {
+    var c = form.elements[n];
+    ['input', 'change'].forEach(function (ev) {
+      c.addEventListener(ev, function () {
+        if (c.getAttribute('aria-invalid') === 'true' && reglas[n](c.value)) marcar(c, true);
+      });
+    });
+  });
+
+  // Los enlaces de cada tarjeta preseleccionan la asesoría
+  document.querySelectorAll('[data-asesoria]').forEach(function (a) {
+    a.addEventListener('click', function () { form.elements.asesoria.value = a.dataset.asesoria; });
+  });
+
+  function formatoFecha(iso) {
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    conf.classList.remove('visible');
+    var errores = validar();
+    if (errores.length) {
+      var nombres = errores.map(function (n) { return etiquetas[n]; }).join(', ');
+      resumen.textContent = 'No se pudo reservar. Corrige: ' + nombres + '.';
+      resumen.classList.add('visible');
+      form.elements[errores[0]].focus();
+      return;
+    }
+    resumen.classList.remove('visible');
+    resumen.textContent = '';
+
+    var d = {
+      asesoria: form.elements.asesoria.value,
+      nombre: form.elements.nombre.value.trim(),
+      correo: form.elements.correo.value.trim(),
+      fecha: formatoFecha(fecha.value),
+      horario: form.elements.horario.value
+    };
+
+    confDetalle.innerHTML = '';
+    [['Asesoría', d.asesoria], ['Nombre', d.nombre], ['Correo', d.correo], ['Fecha', d.fecha], ['Horario', d.horario]]
+      .forEach(function (par) {
+        var dt = document.createElement('dt'); dt.textContent = par[0] + ':';
+        var dd = document.createElement('dd'); dd.textContent = par[1];
+        confDetalle.appendChild(dt); confDetalle.appendChild(dd);
+      });
+    conf.classList.add('visible');
+    confTitulo.focus();
+
+    var li = document.createElement('li');
+    li.className = 'tarjeta';
+    var h = document.createElement('h3'); h.textContent = d.asesoria;
+    var p1 = document.createElement('p'); p1.textContent = d.fecha + ' · ' + d.horario;
+    var p2 = document.createElement('p'); p2.textContent = d.nombre + ' (' + d.correo + ')';
+    li.appendChild(h); li.appendChild(p1); li.appendChild(p2);
+    lista.appendChild(li);
+    lista.style.display = '';
+    vacio.style.display = 'none';
+    form.reset();
+  });
+
+  form.addEventListener('reset', function () {
+    Object.keys(reglas).forEach(function (n) { form.elements[n].removeAttribute('aria-invalid'); });
+    resumen.classList.remove('visible');
+  });
+})();
+</script>
+</body>
+</html>
